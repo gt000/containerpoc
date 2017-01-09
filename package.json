@@ -8,7 +8,6 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.13.3",
-    "couchbase": "^2.0.1"
+    "express": "^4.13.3"
   }
 }
