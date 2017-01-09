@@ -4,6 +4,10 @@ const options = {
   key: process.env.NODE_KEY,
   cert: process.env.NODE_CRT
 };
+console.log('key');
+console.log(process.env.NODE_KEY);
+console.log('crt');
+console.log(process.env.NODE_CRT);
 
 https.createServer(options, (req, res) => {
   res.writeHead(200);
