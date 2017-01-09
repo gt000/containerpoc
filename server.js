@@ -1,80 +1,13 @@
-'use strict';
+var http = require('http');
 
-const express = require('express'),
-      https = require('https');
-
-// Constants
-const PORT = 8080;
-
-// App
-const app = express();
-
-//Couchbase
-var couchbase = require('couchbase')
-var cluster = new couchbase.Cluster('couchbase://' + process.env.COUCHBASE + '/');
-var bucket = cluster.openBucket('default');
-var N1qlQuery = couchbase.N1qlQuery;
-
-
-app.get('/', function (req, res) {
-  res.send('Middleware server is running on port \n' + PORT);
+// Configure our HTTP server to respond with Hello World to all requests.
+var server = http.createServer(function (request, response) {
+  response.writeHead(200, {"Content-Type": "text/plain"});
+  response.end("Hello World\n");
 });
 
-app.get('/login', function (req, res) {
-  res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify('{\"success\": true,\"payload\":{user:madhu}} \n'));
-});
+// Listen on port 8000, IP defaults to 127.0.0.1
+server.listen(8080);
 
-app.get('/couchbase/getorupdate/:id', function (req, res) {
-var id = req.params.id;
-var key = 'key' + id;
-var grows;
-bucket.manager().createPrimaryIndex(function() {
-    bucket.upsert(key, {
-            'email': 'madhu.prakasan@emirates.com' + id, 'interests': ['Holy Grail' + id, 'African Swallows']
-        },
-        function (err, result) {
-            bucket.get(key, function (err, result) {				
-                console.log('Got result: %j', result.value);	
-					
-                bucket.query(
-                    N1qlQuery.fromString('SELECT * FROM default WHERE $1 in interests LIMIT 100'),
-                    ['African Swallows'],
-                    function (err, rows) {
-                        console.log("Got rows: %j", rows);			
-						grows = rows;						
-                    });
-					
-					res.setHeader('Content-Type', 'application/json');
-					res.send(JSON.stringify(result.value));
-            });
-        });
-});
-
-});
-
-app.get('/couchbase/keys', function (req, res) {
-          
-					
-                bucket.query(
-                    N1qlQuery.fromString('SELECT * FROM default WHERE $1 in interests LIMIT 100'),
-                    ['African Swallows'],
-                    function (err, rows) {
-                        console.log("Got rows: %j", rows);			
-						res.setHeader('Content-Type', 'application/json');
-						res.send(JSON.stringify(rows));					
-                    });
-					
-				
-         
-});
-
-
-var privateKey = process.env.NODE_KEY;
-var certificate = process.env.NODE_CRT;
-var options = {key: privateKey, cert: certificate};
-https.createServer( options, function(req,res)
-{
-    app.handle( req, res );
-} ).listen( PORT );
-console.log('Running on http://localhost:' + PORT);
+// Put a friendly message on the terminal
+console.log("Server running at http://127.0.0.1:8080/");
