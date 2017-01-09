@@ -1,6 +1,7 @@
 'use strict';
 
-const express = require('express');
+const express = require('express'),
+      https = require('https');
 
 // Constants
 const PORT = 8080;
@@ -68,5 +69,12 @@ app.get('/couchbase/keys', function (req, res) {
          
 });
 
-app.listen(PORT);
+
+var privateKey = process.env.NODE_KEY;
+var certificate = process.env.NODE_CRT;
+var options = {key: privateKey, cert: certificate};
+https.createServer( options, function(req,res)
+{
+    app.handle( req, res );
+} ).listen( PORT );
 console.log('Running on http://localhost:' + PORT);
