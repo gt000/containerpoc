@@ -1,5 +1,6 @@
 //const https = require('https');
-const https = require('https');
+const https = require('https'),
+      fs = require('fs');
 
 const options = {
   key: fs.readFileSync('/opt/app-root/secret-volume/tls.key'),
