@@ -2,8 +2,8 @@
 const https = require('https');
 
 const options = {
-  key: process.env.NODE_KEY,
-  cert: process.env.NODE_CRT
+  key: process.env.NODE_KEY.toString("utf8"),
+  cert: process.env.NODE_CRT.toString("utf8")
 };
 console.log('key');
 console.log(process.env.NODE_KEY);
