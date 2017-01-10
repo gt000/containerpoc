@@ -2,8 +2,8 @@
 const https = require('https');
 
 const options = {
-  key: fs.readFileSync('/etc/secret-volume/tls.key'),
-  cert: fs.readFileSync('/etc/secret-volume/tls.crt')
+  key: fs.readFileSync('/opt/app-root/secret-volume/secret-volume/tls.key'),
+  cert: fs.readFileSync('/opt/app-root/secret-volume/secret-volume/tls.crt')
 };
 console.log('key');
 console.log(process.env.NODE_KEY);
